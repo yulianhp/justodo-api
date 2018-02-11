@@ -10,7 +10,8 @@ const taskSchema = new Schema({
   description: String,
   status: {
     type: String,
-    default: 'todo'
+    default: 'todo',
+    enum: ['todo','done']
   },
   created_date: {
     type: Date,
