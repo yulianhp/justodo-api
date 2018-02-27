@@ -12,20 +12,9 @@ const taskSchema = new Schema({
     type: String,
     default: 'todo',
     enum: ['todo','done']
-  },
-  created_date: {
-    type: Date,
-    default: Date.now
-  },
-  updated_date: {
-    type: Date,
-    default: Date.now
-  },
-  show_updated: {
-    type: Date,
-    default: Date.now
   }
-  
+},{
+  timestamps: true
 });
 
 var Task = mongoose.model('Task', taskSchema);

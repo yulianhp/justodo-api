@@ -26,7 +26,24 @@ class Task {
   }
   
   static getAll(req,res){
-    task.find()
+    task.find({status: 'todo'})
+    .then((data) => {
+      res.status(200)
+      .json({
+        msg: 'Show all tasks',
+        tasks: data
+      })
+    }).catch((err) => {
+      res.status(500)
+      .json({
+        msg: 'Unable to get all tasks',
+        error: err
+      })
+    })
+  }
+  
+  static getAllDone(req,res){
+    task.find({status: 'done'})
     .then((data) => {
       res.status(200)
       .json({
@@ -63,9 +80,7 @@ class Task {
     let input = {
       task: req.body.task,
       description: req.body.description,
-      status: req.body.status || 'todo',
-      updated_date: Date.now(),
-      show_updated: Date.now()
+      status: req.body.status || 'todo'
     }
     task.findOneAndUpdate({
       "_id": req.params.id
@@ -73,9 +88,7 @@ class Task {
       $set:{
         "task": input.task,
         "description": input.description,
-        "status": input.status,
-        "updated_date": input.updated_date,
-        "show_updated": input.show_updated
+        "status": input.status
       }
     }).then((data) => {
       res.status(200)
@@ -87,6 +100,35 @@ class Task {
       res.status(500)
       .json({
         msg: 'Unable to edit task',
+        error: err
+      })
+    })
+  }
+  
+  static setDone(req,res){
+    task.findOne({'_id': req.params.id})
+    .then((data) => {
+      // console.log(data,'ini setdone done');
+      data.status = 'done'
+      // console.log(data, 'mana donenya?');
+      data.save()
+      .then((updated) => {
+        res.status(200)
+        .json({
+          msg: 'Show updated task',
+          task: updated
+        })
+      }).catch((err) => {
+        res.status(500)
+        .json({
+          msg: 'Unable to update task',
+          error: err
+        })
+      })
+    }).catch((err) => {
+      res.status(500)
+      .json({
+        msg: 'Unable to get task',
         error: err
       })
     })
