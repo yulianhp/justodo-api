@@ -6,7 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/justodo');
+mongoose.connect('mongodb://yulianhp:yulianhp@ds249818.mlab.com:49818/justodo');
 
 var tasks = require('./routes/tasks');
 var users = require('./routes/users');
